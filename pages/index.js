@@ -7,16 +7,17 @@ import HeadTitle from "../components/HeadTitle";
 
 export default function Home({ results }) {
   const router = useRouter();
-  const onClick = (id, title) => {
+  const onClick = (id, title, overview, poster_path) => {
     router.push(
       {
         // `/movies/${id}`
-        pathname: `/movies/${id}`,
+        pathname: `/movies/${title}/${id}`,
         query: {
-          title: title,
+          overview: overview,
+          poster_path: poster_path,
         },
       },
-      `/movies/${id}`
+      `/movies/${title}/${id}`
     );
   };
   // const [movies, setMovies] = useState();
@@ -32,12 +33,19 @@ export default function Home({ results }) {
       {/* {!movies && <h4>Loading...</h4>} */}
       {results?.map((movie) => (
         <div
-          onClick={() => onClick(movie.id, movie.original_title)}
+          onClick={() =>
+            onClick(
+              movie.id,
+              movie.original_title,
+              movie.overview,
+              movie.poster_path
+            )
+          }
           className="movie"
           key={movie.id}
         >
           <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
-          <Link href={`/movie/${movie.id}`}>
+          <Link href={`/movie/${movie.original_title}/${movie.id}`}>
             <a>
               <h4>{movie.original_title}</h4>
             </a>
